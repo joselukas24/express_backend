@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "rebuildTables": "node ./db/rebuildTables",
+    "seedGameData": "node ./db/seedGameData",
     "start": "nodemon index.js"
   },
   "author": "",
