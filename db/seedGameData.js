@@ -18,6 +18,7 @@ async function insertGame(game) {
       game.sample_cover.thumbnail_image,
     ];
 
+    // Running query
     console.log(`Inserting ${game.title} into games table...`);
     const result = await client.query(insertQuery, values);
   } catch (error) {
