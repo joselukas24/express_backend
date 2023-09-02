@@ -5,7 +5,7 @@ async function getTables() {
     const tables = await client.query(
       `SELECT tablename FROM pg_tables WHERE schemaname = 'public' `
     );
-    console.log(tables);
+    console.log(tables.rows);
     return tables;
   } catch (error) {
     throw error;
@@ -20,11 +20,12 @@ async function dropAllTables(tables) {
     // Iterate over tables array in reverse order in case ther are dependencies
     for (let i = tables.length - 1; i >= 0; i--) {
       let tableName = tables[i].tablename;
-      console.log(`Droping table ${tableName}...`);
+      console.log(`Dropping table ${tableName}...`);
       await client.query(`DROP TABLE IF EXISTS ${tableName} CASCADE`);
     }
 
     // Drop order_status type
+    console.log("Dropping TYPE order_status...");
     await client.query(`DROP TYPE order_status`);
 
     // Commit the transaction
