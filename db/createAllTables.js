@@ -72,6 +72,7 @@ async function createAllTables() {
 
     // Execute each query
     for (let i = 0; i < queries.length; i++) {
+      console.log(`Creating table ${queries[i]}...`);
       await client.query(queries[i]);
     }
 

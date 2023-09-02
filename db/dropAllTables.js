@@ -13,6 +13,9 @@ async function dropAllTables() {
       await client.query(`DROP TABLE IF EXISTS ${tableName} CASCADE`);
     }
 
+    // Drop order_status
+    await client.query(`DROP TYPE order_status`);
+
     // Commit the transaction
     await client.query(`COMMIT`);
     console.log("All tables dropped successfully");

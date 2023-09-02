@@ -1,8 +1,5 @@
 const tables = [
   {
-    tablename: "orders",
-  },
-  {
     tablename: "games",
   },
   {
@@ -19,6 +16,9 @@ const tables = [
   },
   {
     tablename: "users",
+  },
+  {
+    tablename: "orders",
   },
   {
     tablename: "order_items",
