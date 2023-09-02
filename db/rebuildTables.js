@@ -79,7 +79,7 @@ async function createAllTables() {
           image TEXT NOT NULL,
           thumbnail_image TEXT NOT NULL
       )`,
-      `CREATE TYPE order_status AS ENUM ('Pending', 'Shipped', 'Delivered', 'Cancelled')`,
+      `CREATE TYPE IF NOT EXISTS order_status AS ENUM ('Pending', 'Shipped', 'Delivered', 'Cancelled')`,
       `CREATE TABLE IF NOT EXISTS orders (
           order_id SERIAL PRIMARY KEY,
           user_id INTEGER REFERENCES users(user_id),
