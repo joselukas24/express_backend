@@ -24,10 +24,6 @@ async function dropAllTables(tables) {
       await client.query(`DROP TABLE IF EXISTS ${tableName} CASCADE`);
     }
 
-    // Drop order_status type
-    console.log("Dropping TYPE order_status...");
-    await client.query(`DROP TYPE order_status`);
-
     // Commit the transaction
     await client.query(`COMMIT`);
     console.log("All tables dropped successfully");
@@ -79,7 +75,8 @@ async function createAllTables() {
           image TEXT NOT NULL,
           thumbnail_image TEXT NOT NULL
       )`,
-      `CREATE TYPE IF NOT EXISTS order_status AS ENUM ('Pending', 'Shipped', 'Delivered', 'Cancelled')`,
+      `DROP TYPE IF EXISTS order_status`,
+      `CREATE TYPE order_status AS ENUM ('Pending', 'Shipped', 'Delivered', 'Cancelled')`,
       `CREATE TABLE IF NOT EXISTS orders (
           order_id SERIAL PRIMARY KEY,
           user_id INTEGER REFERENCES users(user_id),
