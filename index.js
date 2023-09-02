@@ -9,6 +9,7 @@ app.use(cors());
 // init db client
 const client = require("./db/client");
 client.connect();
+
 // Get all tables
 const getTables = require("./db/getTables");
 app.get("/", async (req, res) => {
@@ -16,7 +17,7 @@ app.get("/", async (req, res) => {
     const tables = await getTables();
     res.json(tables.rows);
   } catch (error) {
-    res.status(500).send("Error fetching the tables");
+    res.status(500).send(`Error fetching the tables: ${error.message}`);
   }
 });
 
