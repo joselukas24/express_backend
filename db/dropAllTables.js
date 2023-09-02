@@ -21,3 +21,5 @@ async function dropAllTables() {
     await client.query(`ROLLBACK`);
   }
 }
+
+module.exports = dropAllTables;
