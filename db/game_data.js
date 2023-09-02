@@ -60899,8 +60899,4 @@ game_data.forEach((game) => {
   game.title = game.title.replace(/&#39;/g, "");
 });
 
-game_data.forEach((game) => {
-  console.log(game.title);
-});
-
 module.exports = game_data;
