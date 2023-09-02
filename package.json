@@ -6,6 +6,8 @@
   "scripts": {
     "rebuildTables": "node ./db/rebuildTables",
     "seedGameData": "node ./db/seedGameData",
+    "seedPlatformData": "node ./db/seedPlatformData",
+    "seedGameScreenshots": "node ./db/seedGameScreenshots",
     "start": "nodemon index.js"
   },
   "author": "",

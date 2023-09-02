@@ -62,12 +62,6 @@ async function createAllTables() {
           first_release_date DATE,
           PRIMARY KEY (game_id, platform_id)
       )`,
-      `CREATE TABLE IF NOT EXISTS game_covers (
-          cover_id SERIAL PRIMARY KEY,
-          game_id INTEGER REFERENCES games(game_id),
-          image TEXT NOT NULL,
-          thumbnail_image TEXT NOT NULL
-      )`,
       `CREATE TABLE IF NOT EXISTS game_screenshots (
           screenshot_id SERIAL PRIMARY KEY,
           game_id INTEGER REFERENCES games(game_id),
@@ -128,7 +122,7 @@ async function rebuildTables() {
     // get tables
     const tables = await getTables();
 
-    // if database contains tables drop them
+    // if database contains tables drop them, else print out as much
     if (tables.rows && tables.rows.length > 0) {
       await dropAllTables(tables.rows);
     } else {

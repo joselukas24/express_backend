@@ -1,7 +1,7 @@
 const client = require("./client");
 const game_data = require("./game_data");
 
-async function insetPlatform(platform) {
+async function insertPlatform(platform) {
   try {
     // Insert query
     const insertQuery = `INSERT INTO platforms(platform_id, platform_name) 
@@ -28,7 +28,7 @@ async function seedPlatformData() {
     // Calling insertPlatform for each game and platform object in game_data array
     for (let i = 0; i < game_data.length; i++) {
       for (let j = 0; j < game_data[i].platforms.length; j++) {
-        await insetPlatform(game_data[i].platforms[j]);
+        await insertPlatform(game_data[i].platforms[j]);
       }
     }
   } catch (error) {
