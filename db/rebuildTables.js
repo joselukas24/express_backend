@@ -123,7 +123,7 @@ async function createAllTables() {
 async function rebuildTables() {
   try {
     // Connect Client
-    client.connect();
+    await client.connect();
 
     // get tables
     const tables = await getTables();
