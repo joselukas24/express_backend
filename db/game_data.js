@@ -60884,4 +60884,23 @@ const game_data = [
   },
 ];
 
+// CLEANING DATA
+// Regex to remove html tags
+function stripHtmlTags(str) {
+  return str.replace(/<\/?[^>]+(>|$)/g, "");
+}
+
+game_data.forEach((game) => {
+  game.description = stripHtmlTags(game.description);
+});
+
+// Regex to remove the string "&#39;" from each title
+game_data.forEach((game) => {
+  game.title = game.title.replace(/&#39;/g, "");
+});
+
+game_data.forEach((game) => {
+  console.log(game.title);
+});
+
 module.exports = game_data;
