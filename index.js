@@ -33,6 +33,7 @@ const dropAllTables = require("./db/dropAllTables");
 app.get("/drop-tables", async (req, res) => {
   try {
     await dropAllTables();
+    res.send("All tables dropeed successfully");
   } catch (error) {
     res.status(500).send(`Error dropping tables: ${error.message}`);
   }
