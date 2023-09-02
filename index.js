@@ -17,39 +17,12 @@ client
     console.error(error);
   });
 
-// Get all tables
-const getTables = require("./db/getTables");
-app.get("/", async (req, res) => {
-  try {
-    const tables = await getTables();
-    res.json(tables.rows);
-  } catch (error) {
-    res.status(500).send(`Error fetching the tables: ${error.message}`);
-  }
+// Root Route
+app.get("/", (req, res) => {
+  res.json({ message: "Connected to the backend" });
 });
 
-// Drop all tables
-const dropAllTables = require("./db/dropAllTables");
-app.get("/drop-tables", async (req, res) => {
-  try {
-    await dropAllTables();
-    res.send("All tables dropped successfully");
-  } catch (error) {
-    res.status(500).send(`Error dropping tables: ${error.message}`);
-  }
-});
-
-// Create all tables
-const createAllTables = require("./db/createAllTables");
-app.get("/create-tables", async (req, res) => {
-  try {
-    await createAllTables();
-    res.send("All tables created succesfully");
-  } catch (error) {
-    res.status(500).send(`Error creating tables: ${error.message}`);
-  }
-});
-
+// Starting server
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });

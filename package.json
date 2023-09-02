@@ -4,6 +4,7 @@
   "description": "The backend application for the matemine marketplace website",
   "main": "index.js",
   "scripts": {
+    "rebuildTables": "node ./db/rebuildTables",
     "start": "nodemon index.js"
   },
   "author": "",
