@@ -8,6 +8,7 @@
     "seedGameData": "node ./db/seedGameData",
     "seedPlatformData": "node ./db/seedPlatformData",
     "seedGameScreenshots": "node ./db/seedGameScreenshots",
+    "seedGamePlatforms": "node ./db/seedGamePlatforms",
     "start": "nodemon index.js"
   },
   "author": "",
