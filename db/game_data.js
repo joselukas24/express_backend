@@ -60899,4 +60899,26 @@ game_data.forEach((game) => {
   game.title = game.title.replace(/&#39;/g, "");
 });
 
+// Clean the platform release date to a correct SQL DATE format
+function formatReleaseDate(dateStr) {
+  if (!dateStr) return null;
+
+  const parts = dateStr.split("-");
+
+  if (parts.length === 1) {
+    return `${dateStr}-01-01`; // Only year given, default to January 1st
+  } else if (parts.length === 2) {
+    return `${dateStr}-01`; // Only year and month given, default to the 1st day
+  }
+
+  return dateStr; // Return original string if it's already in a full format or if it's an unrecognized format
+}
+game_data.forEach((game) => {
+  game.platforms.forEach((platform) => {
+    platform.first_release_date = formatReleaseDate(
+      platform.first_release_date
+    );
+  });
+});
+
 module.exports = game_data;
