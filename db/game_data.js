@@ -60911,7 +60911,7 @@ function formatReleaseDate(dateStr) {
     return `${dateStr}-01`; // Only year and month given, default to the 1st day
   }
 
-  return dateStr; // Return original string if it's already in a full format or if it's an unrecognized format
+  return dateStr; // Return original string if it's already in a full format
 }
 game_data.forEach((game) => {
   game.platforms.forEach((platform) => {
