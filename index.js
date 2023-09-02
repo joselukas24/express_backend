@@ -39,6 +39,17 @@ app.get("/drop-tables", async (req, res) => {
   }
 });
 
+// Create all tables
+const createAllTables = require("./db/createAllTables");
+app.get("/create-tables", async (req, res) => {
+  try {
+    await createAllTables();
+    res.send("All tables created succesfully");
+  } catch (error) {
+    res.status(500).send(`Error creating tables: ${error.message}`);
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });

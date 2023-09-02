@@ -11,7 +11,7 @@ async function createAllTables() {
         email VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL
     )`,
-      `CREATE TABLE IF NOT EXISTS game(
+      `CREATE TABLE IF NOT EXISTS games(
         game_id INTEGER PRIMARY KEY, 
         title VARCHAR(255) NOT NULL,
         description TEXT NOT NULL,
@@ -69,8 +69,19 @@ async function createAllTables() {
         quantity INTEGER NOT NULL
     )`,
     ];
+
+    // Execute each query
+    for (let i = 0; i < queries.length; i++) {
+      await client.query(queries[i]);
+    }
+
+    // Commit the transaction
+    await client.query(`COMMIT`);
+    console.log("All tables created successfully");
   } catch (error) {
     await client.query(`ROLLBACK`);
     console.log(error);
   }
 }
+
+module.exports = createAllTables;
