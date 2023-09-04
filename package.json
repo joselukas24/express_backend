@@ -8,7 +8,7 @@
     "seedAllData": "node ./db/seedAllData",
     "start": "nodemon index.js"
   },
-  "author": "",
+  "author": "Jose Lopez Renteria",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
