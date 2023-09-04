@@ -26,9 +26,6 @@ async function insertScreenshot(game, screenshot) {
 
 async function seedGameScreenshots() {
   try {
-    // Connecting client
-    await client.connect();
-
     // Calling insertScreenshot for each game and each screenshot in the game_array
     for (let i = 0; i < game_data.length; i++) {
       for (let j = 0; j < game_data[i].sample_screenshots.length; j++) {
@@ -43,6 +40,4 @@ async function seedGameScreenshots() {
   }
 }
 
-seedGameScreenshots()
-  .catch(console.error)
-  .finally(() => client.end());
+module.exports = seedGameScreenshots;

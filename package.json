@@ -5,10 +5,7 @@
   "main": "index.js",
   "scripts": {
     "rebuildTables": "node ./db/rebuildTables",
-    "seedGameData": "node ./db/seedGameData",
-    "seedPlatformData": "node ./db/seedPlatformData",
-    "seedGameScreenshots": "node ./db/seedGameScreenshots",
-    "seedGamePlatforms": "node ./db/seedGamePlatforms",
+    "seedAllData": "node ./db/seedAllData",
     "start": "nodemon index.js"
   },
   "author": "",

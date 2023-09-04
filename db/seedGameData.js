@@ -28,9 +28,6 @@ async function insertGame(game) {
 
 async function seedGameData() {
   try {
-    // Connecting client
-    await client.connect();
-
     // Calling insertGame for each game object in game_data array
     for (let i = 0; i < game_data.length; i++) {
       await insertGame(game_data[i]);
@@ -40,6 +37,4 @@ async function seedGameData() {
   }
 }
 
-seedGameData()
-  .catch(console.error)
-  .finally(() => client.end());
+module.exports = seedGameData;

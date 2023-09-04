@@ -22,9 +22,6 @@ async function insertPlatform(platform) {
 
 async function seedPlatformData() {
   try {
-    // Connecting client
-    await client.connect();
-
     // Calling insertPlatform for each game and platform object in game_data array
     for (let i = 0; i < game_data.length; i++) {
       for (let j = 0; j < game_data[i].platforms.length; j++) {
@@ -36,6 +33,4 @@ async function seedPlatformData() {
   }
 }
 
-seedPlatformData()
-  .catch(console.error)
-  .finally(() => client.end());
+module.exports = seedPlatformData;
