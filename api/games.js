@@ -32,7 +32,6 @@ router.get("/game/:game_id", async (req, res) => {
 // GET - api/games/:platform_name
 router.get("/platform/name/:platform_name", async (req, res) => {
   try {
-    console.log(req.params.platform_name);
     const platform_id = await getPlatformId(req.params.platform_name);
     const games = await getGamesByPlatform(platform_id[0].platform_id);
     res.json(games);
