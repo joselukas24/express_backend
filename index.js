@@ -19,13 +19,11 @@ client
 
 // Root Route
 app.get("/", (req, res) => {
-  async function getGames() {
-    const result = await client.query("SELECT * FROM games");
-    await res.send(result.rows);
-  }
-  getGames();
-  // res.json({ message: "Connected to the backend" });
+  res.json({ message: "Connected to the backend" });
 });
+
+// Router: /api
+app.use("/api", require("./api"));
 
 // Starting server
 app.listen(PORT, () => {
