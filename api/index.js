@@ -9,4 +9,7 @@ router.get("/health", (req, res) => {
 // ROUTER: /api/games
 router.use("/games", require("./games"));
 
+// ROUTER: /api/users
+router.use("/users", require("./users"));
+
 module.exports = router;

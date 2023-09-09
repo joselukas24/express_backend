@@ -5,6 +5,7 @@ const {
   getAllGames,
   getGamesByPlatform,
   getGameById,
+  getGameByTitle,
   getGameScreenshots,
   getPlatformId,
 } = require("../db/games");
@@ -24,6 +25,16 @@ router.get("/game/:game_id", async (req, res) => {
   try {
     const game_screenshots = await getGameScreenshots(req.params.game_id);
     res.send(game_screenshots);
+  } catch (error) {
+    throw error;
+  }
+});
+
+// GET - api/game/title/:game_title
+router.get("/game/title/:game_title", async (req, res) => {
+  try {
+    const game = await getGameByTitle(req.params.game_title);
+    res.send(game);
   } catch (error) {
     throw error;
   }
