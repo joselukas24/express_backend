@@ -1,8 +1,9 @@
 const { system } = require("nodemon/lib/config");
 const client = require("./client");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-// GET - users/user/ - get user
+// GET - users/ - get user
 async function getUsers() {
   try {
     const { rows } = await client.query(`SELECT * FROM users`);
@@ -18,9 +19,13 @@ async function checkUser(body) {
       `SELECT password FROM users WHERE email = $1`,
       [body.email]
     );
-    const hash = rows[0].password;
-    if (bcrypt.compareSync(body.password, hash)) {
-      return true;
+    if (rows[0]) {
+      const hash = rows[0].password;
+      if (bcrypt.compareSync(body.password, hash)) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }

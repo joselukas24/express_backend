@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const jwt = require("jsonwebtoken");
 const { getUsers, checkUser, postUser } = require("../db/users");
 
 // GET - api/users/login - Login User
@@ -8,7 +8,12 @@ router.get("/login", async (req, res) => {
   try {
     const check = await checkUser(req.body);
     if (check) {
-      res.send("Login Successful!");
+      const accessToken = jwt.sign(
+        { email: req.body.email },
+        process.env.WEB_TOKEN,
+        { expiresIn: "15m" }
+      );
+      res.json({ "Login Successful!": accessToken });
     } else {
       res.send("Wrong email or password! Please try again");
     }
