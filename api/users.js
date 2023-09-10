@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const { getUsers, checkUser, postUser } = require("../db/users");
+const { getUsers, loginUser, signupUser } = require("../db/users");
 
 // GET - api/users/login - Login User
 router.get("/login", async (req, res) => {
@@ -23,8 +23,8 @@ router.get("/login", async (req, res) => {
   }
 });
 
-// POST - api/users/create - post user
-router.post("/user/create", async (req, res) => {
+// POST - api/users/signup - post user
+router.post("/user/signup", async (req, res) => {
   try {
     const user = await postUser(req.body);
     res.json(user);
