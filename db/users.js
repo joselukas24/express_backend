@@ -49,4 +49,13 @@ async function signupUser(body) {
   }
 }
 
+// POST - users/user/cart/add - add product to cart
+async function addToCart(product){
+  try {
+    const response = await client.query(`INSERT INTO cart_items`)
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = { getUsers, loginUser, signupUser };
