@@ -39,10 +39,9 @@ async function createAllTables() {
       `BEGIN`,
       `CREATE TABLE IF NOT EXISTS users(
           user_id SERIAL PRIMARY KEY,
-          first_name VARCHAR(255) NOT NULL,
-          last_name VARCHAR(255) NOT NULL,
           email VARCHAR(255) UNIQUE NOT NULL,
-          password VARCHAR(255) NOT NULL
+          password VARCHAR(255) NOT NULL,
+          admin boolean
       )`,
       `CREATE TABLE IF NOT EXISTS games(
           game_id INTEGER PRIMARY KEY, 
@@ -82,9 +81,9 @@ async function createAllTables() {
           order_item_id SERIAL PRIMARY KEY,
           order_id INTEGER REFERENCES orders(order_id),
           game_id INTEGER REFERENCES games(game_id),
-          quantity INTEGER NOT NULL,
-          unit_price DECIMAL(10, 2) NOT NULL,
-          total_price DECIMAL(10, 2) NOT NULL
+          title VARCHAR(255) NOT NULL,
+          sample_cover_image TEXT NOT NULL,
+          price DECIMAL(10, 2) NOT NULL
       )`,
       `CREATE TABLE IF NOT EXISTS shopping_carts (
           cart_id SERIAL PRIMARY KEY,
@@ -94,7 +93,9 @@ async function createAllTables() {
           cart_item_id SERIAL PRIMARY KEY,
           cart_id INTEGER REFERENCES shopping_carts(cart_id),
           game_id INTEGER REFERENCES games(game_id),
-          quantity INTEGER NOT NULL
+          title VARCHAR(255) NOT NULL,
+          sample_cover_image TEXT NOT NULL,
+          price DECIMAL(10,2) NOT NULL
       )`,
     ];
 

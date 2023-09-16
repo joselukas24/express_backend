@@ -14,6 +14,7 @@ async function getUsers() {
 
 async function loginUser(body) {
   try {
+    console.log(body);
     const { rows } = await client.query(
       `SELECT password FROM users WHERE email = $1`,
       [body.email]
@@ -40,8 +41,8 @@ async function signupUser(body) {
     const {
       rows: [user],
     } = await client.query(
-      `INSERT INTO users(first_name, last_name, email, password) VALUES($1, $2, $3, $4) RETURNING *;`,
-      [body.first_name, body.last_name, body.email, hash]
+      `INSERT INTO users(email, password) VALUES($1, $2) RETURNING *;`,
+      [body.email, hash]
     );
     return user;
   } catch (error) {
@@ -50,12 +51,12 @@ async function signupUser(body) {
 }
 
 // POST - users/user/cart/add - add product to cart
-async function addToCart(product){
+async function addToCart(product) {
   try {
-    const response = await client.query(`INSERT INTO cart_items`)
+    const response = await client.query(`INSERT INTO cart_items`);
   } catch (error) {
     throw error;
   }
 }
 
-module.exports = { getUsers, loginUser, signupUser };
+module.exports = { getUsers, loginUser, signupUser, addToCart };
