@@ -12,9 +12,9 @@ async function getUsers() {
   }
 }
 
+// POST - api/users/user/login - Login User
 async function loginUser(body) {
   try {
-    console.log(body);
     const { rows } = await client.query(
       `SELECT password FROM users WHERE email = $1`,
       [body.email]
@@ -44,6 +44,9 @@ async function signupUser(body) {
       `INSERT INTO users(email, password) VALUES($1, $2) RETURNING *;`,
       [body.email, hash]
     );
+    await client.query(`INSERT INTO shopping_carts(user_id) VALUES($1);`, [
+      user.user_id,
+    ]);
     return user;
   } catch (error) {
     throw error;
@@ -59,4 +62,18 @@ async function addToCart(product) {
   }
 }
 
-module.exports = { getUsers, loginUser, signupUser, addToCart };
+// POST - users/user/cart - get the cart items for user
+async function getCartItems(email) {
+  try {
+    const { rows } = await client.query(
+      `SELECT user_id FROM users WHERE email=$1`,
+      [email]
+    );
+    console.log(rows);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+module.exports = { getUsers, loginUser, signupUser, addToCart, getCartItems };
