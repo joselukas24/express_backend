@@ -2,6 +2,25 @@ const { system } = require("nodemon/lib/config");
 const client = require("./client");
 const bcrypt = require("bcrypt");
 
+// Gets the users cart_id using the users email
+async function getCartId(email) {
+  try {
+    const { rows } = await client.query(
+      `SELECT user_id FROM users WHERE email=$1`,
+      [email]
+    );
+    const user_id = rows[0].user_id;
+    const cartRows = await client.query(
+      `SELECT cart_id FROM shopping_carts WHERE user_id=$1`,
+      [user_id]
+    );
+    const cart_id = cartRows.rows[0].cart_id;
+    return cart_id;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // GET - users/ - get user
 async function getUsers() {
   try {
@@ -54,9 +73,14 @@ async function signupUser(body) {
 }
 
 // POST - users/user/cart/add - add product to cart
-async function addToCart(product) {
+async function addToCart(body) {
   try {
-    const response = await client.query(`INSERT INTO cart_items`);
+    const cart_id = await getCartId(body.email);
+    const cartItemRows = await client.query(
+      `INSERT INTO cart_items(cart_id, game_id, title, sample_cover_image, price) VALUES($1, $2, $3, $4, $5) RETURNING *`,
+      [cart_id, body.game_id, body.title, body.sample_cover_image, body.price]
+    );
+    return cartItemRows;
   } catch (error) {
     throw error;
   }
@@ -65,12 +89,12 @@ async function addToCart(product) {
 // POST - users/user/cart - get the cart items for user
 async function getCartItems(email) {
   try {
-    const { rows } = await client.query(
-      `SELECT user_id FROM users WHERE email=$1`,
-      [email]
+    const cart_id = await getCartId(email);
+    const cart_items = await client.query(
+      `SELECT * FROM cart_items WHERE cart_id=$1`,
+      [cart_id]
     );
-    console.log(rows);
-    return rows;
+    return cart_items.rows;
   } catch (error) {
     throw error;
   }

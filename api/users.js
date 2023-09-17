@@ -6,6 +6,7 @@ const {
   loginUser,
   signupUser,
   getCartItems,
+  addToCart,
 } = require("../db/users");
 
 // POST - api/users/user/login - Login User
@@ -52,16 +53,8 @@ router.post("/user/signup", async (req, res) => {
 // GET - api/users/user/cart return the cart items
 router.post("/user/cart/", async (req, res) => {
   try {
-    console.log(req.body);
-    const bearer = req.headers.authorization.indexOf("Bearer");
-    if (bearer === 0 && req.headers.authorization) {
-      const token = req.headers.authorization.split(" ")[1];
-      const decoded = jwt.verify(token, process.env.WEB_TOKEN);
-      console.log(decoded);
-      if (decoded.email) {
-        res.send(decoded);
-      }
-    }
+    const cartItems = await getCartItems(req.body.email);
+    res.json(cartItems);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -69,18 +62,20 @@ router.post("/user/cart/", async (req, res) => {
 
 // POST - api/users/user/cart/add add an item to the users cart
 router.post("/user/cart/add", async (req, res) => {
+  // try {
+  //   const bearer = req.headers.authorization.indexOf("Bearer");
+  //   if (bearer === 0 && req.headers.authorization) {
+  //     const token = req.headers.authorization.split(" ")[1];
+  //     const decoded = jwt.verify(token, process.env.WEB_TOKEN);
+  //     if (decoded.email) {
+  //       const response = await addToCart(req.body);
+  //       res.send(decoded);
+  //     }
+  //   }
+  //}
   try {
-    const bearer = req.headers.authorization.indexOf("Bearer");
-    if (bearer === 0 && req.headers.authorization) {
-      const token = req.headers.authorization.split(" ")[1];
-      const decoded = jwt.verify(token, process.env.WEB_TOKEN);
-      if (decoded.email) {
-        // Get user_id using the email that is saved in local storage
-        // With the user_id get the cart_id
-        // With this cart_id add the item to the cart_items table
-        res.send(decoded);
-      }
-    }
+    const response = await addToCart(req.body);
+    res.send("It works");
   } catch (error) {
     res.status(400).send(error);
   }
@@ -88,18 +83,21 @@ router.post("/user/cart/add", async (req, res) => {
 
 // POST - api/users/user/cart/delete delete an item to the users cart
 router.delete("/user/cart/delete", async (req, res) => {
+  // try {
+  //   const bearer = req.headers.authorization.indexOf("Bearer");
+  //   if (bearer === 0 && req.headers.authorization) {
+  //     const token = req.headers.authorization.split(" ")[1];
+  //     const decoded = jwt.verify(token, process.env.WEB_TOKEN);
+  //     if (decoded.email) {
+  //       // Get user_id using the email that is saved in local storage
+  //       // With the user_id get the cart_id
+  //       // With this cart_id remove the item from the cart_items table
+  //       res.send(decoded);
+  //     }
+  //   }
+  // }
   try {
-    const bearer = req.headers.authorization.indexOf("Bearer");
-    if (bearer === 0 && req.headers.authorization) {
-      const token = req.headers.authorization.split(" ")[1];
-      const decoded = jwt.verify(token, process.env.WEB_TOKEN);
-      if (decoded.email) {
-        // Get user_id using the email that is saved in local storage
-        // With the user_id get the cart_id
-        // With this cart_id remove the item from the cart_items table
-        res.send(decoded);
-      }
-    }
+    res.send("DELETE");
   } catch (error) {
     res.status(400).send(error);
   }
