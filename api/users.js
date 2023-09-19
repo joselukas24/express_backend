@@ -7,6 +7,7 @@ const {
   signupUser,
   getCartItems,
   addToCart,
+  deleteCartItem,
 } = require("../db/users");
 
 // POST - api/users/user/login - Login User
@@ -37,7 +38,6 @@ router.post("/user/signup", async (req, res) => {
     if (check) {
       const accessToken = jwt.sign(
         { email: loginUser.email },
-
         process.env.WEB_TOKEN,
         { expiresIn: "5h" }
       );
@@ -62,20 +62,15 @@ router.post("/user/cart/", async (req, res) => {
 
 // POST - api/users/user/cart/add add an item to the users cart
 router.post("/user/cart/add", async (req, res) => {
-  // try {
-  //   const bearer = req.headers.authorization.indexOf("Bearer");
-  //   if (bearer === 0 && req.headers.authorization) {
-  //     const token = req.headers.authorization.split(" ")[1];
-  //     const decoded = jwt.verify(token, process.env.WEB_TOKEN);
-  //     if (decoded.email) {
-  //       const response = await addToCart(req.body);
-  //       res.send(decoded);
-  //     }
-  //   }
-  //}
   try {
-    const response = await addToCart(req.body);
-    res.send("It works");
+    const bearer = req.headers.authorization.indexOf("Bearer");
+    if (bearer === 0 && req.headers.authorization) {
+      const token = req.headers.authorization.split(" ")[1];
+      const decoded = jwt.verify(token, process.env.WEB_TOKEN);
+      if (decoded.email) {
+        const response = await addToCart(req.body);
+      }
+    }
   } catch (error) {
     res.status(400).send(error);
   }
@@ -83,21 +78,15 @@ router.post("/user/cart/add", async (req, res) => {
 
 // POST - api/users/user/cart/delete delete an item to the users cart
 router.delete("/user/cart/delete", async (req, res) => {
-  // try {
-  //   const bearer = req.headers.authorization.indexOf("Bearer");
-  //   if (bearer === 0 && req.headers.authorization) {
-  //     const token = req.headers.authorization.split(" ")[1];
-  //     const decoded = jwt.verify(token, process.env.WEB_TOKEN);
-  //     if (decoded.email) {
-  //       // Get user_id using the email that is saved in local storage
-  //       // With the user_id get the cart_id
-  //       // With this cart_id remove the item from the cart_items table
-  //       res.send(decoded);
-  //     }
-  //   }
-  // }
   try {
-    res.send("DELETE");
+    const bearer = req.headers.authorization.indexOf("Bearer");
+    if (bearer === 0 && req.headers.authorization) {
+      const token = req.headers.authorization.split(" ")[1];
+      const decoded = jwt.verify(token, process.env.WEB_TOKEN);
+      if (decoded.email) {
+        await deleteCartItem(req.body.cartItemId);
+      }
+    }
   } catch (error) {
     res.status(400).send(error);
   }

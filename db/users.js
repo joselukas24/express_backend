@@ -100,4 +100,21 @@ async function getCartItems(email) {
   }
 }
 
-module.exports = { getUsers, loginUser, signupUser, addToCart, getCartItems };
+async function deleteCartItem(cartItemId) {
+  try {
+    await client.query(`DELETE FROM cart_items WHERE cart_item_id=$1`, [
+      cartItemId,
+    ]);
+  } catch (error) {
+    throw error;
+  }
+}
+
+module.exports = {
+  getUsers,
+  loginUser,
+  signupUser,
+  addToCart,
+  getCartItems,
+  deleteCartItem,
+};

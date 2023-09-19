@@ -1,13 +1,14 @@
 const express = require("express");
 const app = express();
 const PORT = 3000;
+const cors = require("cors");
+
 require("dotenv").config();
 
 // JSON parser
 app.use(express.json());
 
 // init cors
-const cors = require("cors");
 app.use(cors());
 
 // init db client
