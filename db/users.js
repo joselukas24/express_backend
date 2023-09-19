@@ -31,28 +31,6 @@ async function getUsers() {
   }
 }
 
-// POST - api/users/user/login - Login User
-async function loginUser(body) {
-  try {
-    const { rows } = await client.query(
-      `SELECT password FROM users WHERE email = $1`,
-      [body.email]
-    );
-    if (rows[0]) {
-      const hash = rows[0].password;
-      if (bcrypt.compareSync(body.password, hash)) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  } catch (error) {
-    throw error;
-  }
-}
-
 // POST - users/user/ - post user
 async function signupUser(body) {
   const hash = bcrypt.hashSync(body.password, 10);
@@ -81,6 +59,28 @@ async function addToCart(body) {
       [cart_id, body.game_id, body.title, body.sample_cover_image, body.price]
     );
     return cartItemRows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// POST - api/users/user/login - Login User
+async function loginUser(body) {
+  try {
+    const { rows } = await client.query(
+      `SELECT password FROM users WHERE email = $1`,
+      [body.email]
+    );
+    if (rows[0]) {
+      const hash = rows[0].password;
+      if (bcrypt.compareSync(body.password, hash)) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
   } catch (error) {
     throw error;
   }

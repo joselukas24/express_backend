@@ -37,7 +37,7 @@ router.post("/user/signup", async (req, res) => {
     const check = await loginUser(req.body);
     if (check) {
       const accessToken = jwt.sign(
-        { email: loginUser.email },
+        { email: req.body.email },
         process.env.WEB_TOKEN,
         { expiresIn: "5h" }
       );
