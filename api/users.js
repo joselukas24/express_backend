@@ -8,13 +8,28 @@ const {
   getCartItems,
   addToCart,
   deleteCartItem,
+  getAdmin,
 } = require("../db/users");
 
 // POST - api/users/
 router.post("/", async (req, res) => {
   try {
-    const users = await getUsers();
-    res.json(users);
+    // Check the validity of the jsonwebtoken
+    const bearer = req.headers.authorization.indexOf("Bearer");
+    if (bearer === 0 && req.headers.authorization) {
+      const token = req.headers.authorization.split(" ")[1];
+      const decoded = jwt.verify(token, process.env.WEB_TOKEN);
+      if (decoded.email) {
+        // If the jsonwebtoken is validated check to see if the user is an admin
+        const admin = await getAdmin(req.body.email);
+        if (admin) {
+          const users = await getUsers();
+          res.json(users);
+        } else {
+          res.send(false);
+        }
+      }
+    }
   } catch (error) {
     res.status(400).send(error);
   }
@@ -62,8 +77,15 @@ router.post("/user/signup", async (req, res) => {
 // GET - api/users/user/cart return the cart items
 router.post("/user/cart/", async (req, res) => {
   try {
-    const cartItems = await getCartItems(req.body.email);
-    res.json(cartItems);
+    const bearer = req.headers.authorization.indexOf("Bearer");
+    if (bearer === 0 && req.headers.authorization) {
+      const token = req.headers.authorization.split(" ")[1];
+      const decoded = jwt.verify(token, process.env.WEB_TOKEN);
+      if (decoded.email) {
+        const cartItems = await getCartItems(req.body.email);
+        res.json(cartItems);
+      }
+    }
   } catch (error) {
     res.status(400).send(error);
   }

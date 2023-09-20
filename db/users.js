@@ -1,7 +1,19 @@
 const { system } = require("nodemon/lib/config");
 const client = require("./client");
 const bcrypt = require("bcrypt");
-// const { use } = require("../api/users");
+
+// Get whether the user is an admin
+async function getAdmin(email) {
+  try {
+    const { rows } = await client.query(
+      `SELECT admin FROM users WHERE email=$1`,
+      [email]
+    );
+    return rows[0].admin;
+  } catch (error) {
+    throw error;
+  }
+}
 
 // Gets the users cart_id using the users email
 async function getCartId(email) {
@@ -127,4 +139,5 @@ module.exports = {
   addToCart,
   getCartItems,
   deleteCartItem,
+  getAdmin,
 };
