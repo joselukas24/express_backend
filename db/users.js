@@ -1,6 +1,7 @@
 const { system } = require("nodemon/lib/config");
 const client = require("./client");
 const bcrypt = require("bcrypt");
+// const { use } = require("../api/users");
 
 // Gets the users cart_id using the users email
 async function getCartId(email) {
@@ -25,7 +26,16 @@ async function getCartId(email) {
 async function getUsers() {
   try {
     const { rows } = await client.query(`SELECT * FROM users`);
-    return rows;
+    const usersList = [];
+    for (let i = 0; i < rows.length; i++) {
+      const currentUser = {
+        user_id: rows[i].user_id,
+        email: rows[i].email,
+        admin: rows[i].admin,
+      };
+      usersList.push(currentUser);
+    }
+    return usersList;
   } catch (error) {
     throw error;
   }

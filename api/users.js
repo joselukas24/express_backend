@@ -10,6 +10,16 @@ const {
   deleteCartItem,
 } = require("../db/users");
 
+// POST - api/users/
+router.post("/", async (req, res) => {
+  try {
+    const users = await getUsers();
+    res.json(users);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 // POST - api/users/user/login - Login User
 router.post("/user/login", async (req, res) => {
   try {
@@ -25,8 +35,7 @@ router.post("/user/login", async (req, res) => {
       res.json({ message: "Wrong email or password! Please try again" });
     }
   } catch (error) {
-    res.json(error);
-    throw error;
+    res.status(400).send(error);
   }
 });
 
@@ -46,7 +55,7 @@ router.post("/user/signup", async (req, res) => {
       res.json({ message: "Wrong email or password! Please try again" });
     }
   } catch (error) {
-    res.json(error);
+    res.status(400).send(error);
   }
 });
 
