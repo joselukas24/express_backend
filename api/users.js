@@ -23,6 +23,7 @@ router.post("/", async (req, res) => {
         // If the jsonwebtoken is validated check to see if the user is an admin
         const admin = await getAdmin(req.body.email);
         if (admin) {
+          // If the user is an admin call the getUsers function
           const users = await getUsers();
           res.json(users);
         } else {
