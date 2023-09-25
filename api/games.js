@@ -10,6 +10,7 @@ const {
   getGameScreenshots,
   getPlatformId,
   deleteGame,
+  updateGame,
 } = require("../db/games");
 
 // GET - api/games - get all games
@@ -88,6 +89,16 @@ router.get("/platform/:platform_id", async (req, res, next) => {
   try {
     const games = await getGamesByPlatform(req.params.platform_id);
     res.send(games);
+  } catch (error) {
+    throw error;
+  }
+});
+
+// GET - api/games/game/update/:game_id
+router.post("/game/update/:game_id", async (req, res, next) => {
+  try {
+    const games = await updateGame(req.params.game_id, req.body);
+    res.send("Update Complete");
   } catch (error) {
     throw error;
   }

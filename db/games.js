@@ -49,7 +49,7 @@ async function getGameById(game_id) {
   }
 }
 
-// Get - api/games/game/title/:game_title
+// GET - api/games/game/title/:game_title
 async function getGameByTitle(game_title) {
   try {
     const { rows } = await client.query(
@@ -62,12 +62,27 @@ async function getGameByTitle(game_title) {
   }
 }
 
-// Get - api/games/game/delete/:game_id
+// GET - api/games/game/delete/:game_id
 async function deleteGame(game_id) {
   try {
     const response = await client.query(
       `UPDATE games SET available = false WHERE game_id = $1`,
       [game_id]
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// POST - api/games/game/update/:game_id
+async function updateGame(game_id, { title, price, description }) {
+  try {
+    const response = await client.query(
+      ` UPDATE games
+      SET title = $1, price = $2, description = $3
+      WHERE game_id = $4`,
+      [title, price, description, game_id]
     );
     return response;
   } catch (error) {
@@ -123,4 +138,5 @@ module.exports = {
   getGameScreenshots,
   getPlatformId,
   deleteGame,
+  updateGame,
 };
