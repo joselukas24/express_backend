@@ -49,7 +49,8 @@ async function createAllTables() {
           description TEXT NOT NULL,
           price DECIMAL(10,2) NOT NULL,
           sample_cover_image TEXT NOT NULL,
-          sample_cover_thumbnail TEXT NOT NULL
+          sample_cover_thumbnail TEXT NOT NULL,
+          available BOOLEAN DEFAULT true
       )`,
       `CREATE TABLE IF NOT EXISTS platforms(
           platform_id INTEGER PRIMARY KEY,

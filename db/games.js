@@ -10,11 +10,24 @@ async function getAllGames() {
   }
 }
 
+// GET - api/games/available - get all available games
+async function getAllAvailableGames() {
+  try {
+    const { rows } = await client.query(
+      `SELECT * FROM games WHERE available=$1`,
+      [true]
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // GET - api/games/:platform_id
 async function getGamesByPlatform(platform_id) {
   try {
     const { rows } = await client.query(
-      `SELECT * FROM games WHERE game_id IN (SELECT game_id FROM game_platforms WHERE platform_id = $1)`,
+      `SELECT * FROM games WHERE game_id IN (SELECT game_id FROM game_platforms WHERE platform_id = $1 AND available=true)`,
       [platform_id]
     );
     return rows;
@@ -44,6 +57,19 @@ async function getGameByTitle(game_title) {
       [game_title]
     );
     return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// Get - api/games/game/delete/:game_id
+async function deleteGame(game_id) {
+  try {
+    const response = await client.query(
+      `UPDATE games SET available = false WHERE game_id = $1`,
+      [game_id]
+    );
+    return response;
   } catch (error) {
     throw error;
   }
@@ -90,9 +116,11 @@ async function getPlatformId(platform_name) {
 
 module.exports = {
   getAllGames,
+  getAllAvailableGames,
   getGamesByPlatform,
   getGameById,
   getGameByTitle,
   getGameScreenshots,
   getPlatformId,
+  deleteGame,
 };

@@ -3,11 +3,13 @@ const router = express.Router();
 
 const {
   getAllGames,
+  getAllAvailableGames,
   getGamesByPlatform,
   getGameById,
   getGameByTitle,
   getGameScreenshots,
   getPlatformId,
+  deleteGame,
 } = require("../db/games");
 
 // GET - api/games - get all games
@@ -15,6 +17,26 @@ router.get("/", async (req, res) => {
   try {
     const games = await getAllGames();
     res.json(games);
+  } catch (error) {
+    throw error;
+  }
+});
+
+// GET - api/games/available - get all available games
+router.get("/available", async (req, res) => {
+  try {
+    const games = await getAllAvailableGames();
+    res.json(games);
+  } catch (error) {
+    throw error;
+  }
+});
+
+// GET - api/games/game/title/:game_id
+router.get("/game/title/:game_id", async (req, res) => {
+  try {
+    const game = await getGameById(req.params.game_id);
+    res.send(game);
   } catch (error) {
     throw error;
   }
@@ -35,6 +57,16 @@ router.get("/game/title/:game_title", async (req, res) => {
   try {
     const game = await getGameByTitle(req.params.game_title);
     res.send(game);
+  } catch (error) {
+    throw error;
+  }
+});
+
+// DELETE - api/games/game/delete/:game_title
+router.delete("/game/delete/:game_id", async (req, res) => {
+  try {
+    const response = await deleteGame(req.params.game_id);
+    res.send("Game deleted");
   } catch (error) {
     throw error;
   }
