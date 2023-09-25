@@ -9,6 +9,7 @@ const {
   addToCart,
   deleteCartItem,
   getAdmin,
+  setAdmin,
 } = require("../db/users");
 
 // POST - api/users/
@@ -40,13 +41,14 @@ router.post("/", async (req, res) => {
 router.post("/user/login", async (req, res) => {
   try {
     const check = await loginUser(req.body);
+    const admin = await getAdmin(req.body.email);
     if (check) {
       const accessToken = jwt.sign(
         { email: req.body.email },
         process.env.WEB_TOKEN,
         { expiresIn: "5h" }
       );
-      res.json({ accessToken });
+      res.json({ accessToken, admin });
     } else {
       res.json({ message: "Wrong email or password! Please try again" });
     }
@@ -60,13 +62,14 @@ router.post("/user/signup", async (req, res) => {
   try {
     const user = await signupUser(req.body);
     const check = await loginUser(req.body);
+    const admin = await getAdmin(req.body.email);
     if (check) {
       const accessToken = jwt.sign(
         { email: req.body.email },
         process.env.WEB_TOKEN,
         { expiresIn: "5h" }
       );
-      res.json({ accessToken });
+      res.json({ accessToken, admin });
     } else {
       res.json({ message: "Wrong email or password! Please try again" });
     }
@@ -119,6 +122,16 @@ router.delete("/user/cart/delete", async (req, res) => {
         await deleteCartItem(req.body.cartItemId);
       }
     }
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+// POST - api/users/user/admin/change/
+router.post("/user/admin/change/", async (req, res) => {
+  try {
+    const response = await setAdmin(req.body);
+    res.send("User has been set to admin");
   } catch (error) {
     res.status(400).send(error);
   }

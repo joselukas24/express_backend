@@ -15,6 +15,22 @@ async function getAdmin(email) {
   }
 }
 
+// Make a user an admin
+async function setAdmin(body) {
+  try {
+    const { rows } = await client.query(
+      `
+      UPDATE users
+      SET admin = true
+      WHERE email = $1`,
+      [body.email]
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // Gets the users cart_id using the users email
 async function getCartId(email) {
   try {
@@ -140,4 +156,5 @@ module.exports = {
   getCartItems,
   deleteCartItem,
   getAdmin,
+  setAdmin,
 };

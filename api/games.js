@@ -54,7 +54,7 @@ router.get("/game/:game_id", async (req, res) => {
 });
 
 // GET - api/game/title/:game_title
-router.get("/game/title/:game_title", async (req, res) => {
+router.get("/game/title/name/:game_title", async (req, res) => {
   try {
     const game = await getGameByTitle(req.params.game_title);
     res.send(game);
