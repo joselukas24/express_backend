@@ -78,8 +78,8 @@ async function signupUser(body) {
     const {
       rows: [user],
     } = await client.query(
-      `INSERT INTO users(email, password, admin) VALUES($1, $2, $3) RETURNING *;`,
-      [body.email, hash, true]
+      `INSERT INTO users(email, password) VALUES($1, $2) RETURNING *;`,
+      [body.email, hash]
     );
     await client.query(`INSERT INTO shopping_carts(user_id) VALUES($1);`, [
       user.user_id,
