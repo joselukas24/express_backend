@@ -138,6 +138,20 @@ async function getCartItems(email) {
   }
 }
 
+// DELETE - users/user/cart/delete/all - delete the cart items for user
+async function deleteCartItems(email) {
+  try {
+    const cart_id = await getCartId(email);
+    const cart_items = await client.query(
+      `DELETE FROM cart_items WHERE cart_id=$1`,
+      [cart_id]
+    );
+    return cart_items.rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function deleteCartItem(cartItemId) {
   try {
     await client.query(`DELETE FROM cart_items WHERE cart_item_id=$1`, [
@@ -155,6 +169,7 @@ module.exports = {
   addToCart,
   getCartItems,
   deleteCartItem,
+  deleteCartItems,
   getAdmin,
   setAdmin,
 };

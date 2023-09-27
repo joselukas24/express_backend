@@ -8,6 +8,7 @@ const {
   getCartItems,
   addToCart,
   deleteCartItem,
+  deleteCartItems,
   getAdmin,
   setAdmin,
 } = require("../db/users");
@@ -120,6 +121,23 @@ router.delete("/user/cart/delete", async (req, res) => {
       const decoded = jwt.verify(token, process.env.WEB_TOKEN);
       if (decoded.email) {
         await deleteCartItem(req.body.cartItemId);
+      }
+    }
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+// POST - api/users/user/cart/delete/all delete all items from the users cart
+router.delete("/user/cart/delete/all", async (req, res) => {
+  try {
+    const bearer = req.headers.authorization.indexOf("Bearer");
+    if (bearer === 0 && req.headers.authorization) {
+      const token = req.headers.authorization.split(" ")[1];
+      const decoded = jwt.verify(token, process.env.WEB_TOKEN);
+      if (decoded.email) {
+        await deleteCartItems(req.body.email);
+        res.send("All items have been deleted from cart");
       }
     }
   } catch (error) {
