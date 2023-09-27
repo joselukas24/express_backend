@@ -2,6 +2,8 @@ const { system } = require("nodemon/lib/config");
 const client = require("./client");
 const bcrypt = require("bcrypt");
 
+const numberOfUsers = 0;
+
 // Get whether the user is an admin
 async function getAdmin(email) {
   try {
@@ -76,8 +78,8 @@ async function signupUser(body) {
     const {
       rows: [user],
     } = await client.query(
-      `INSERT INTO users(email, password) VALUES($1, $2) RETURNING *;`,
-      [body.email, hash]
+      `INSERT INTO users(email, password, admin) VALUES($1, $2, $3) RETURNING *;`,
+      [body.email, hash, true]
     );
     await client.query(`INSERT INTO shopping_carts(user_id) VALUES($1);`, [
       user.user_id,
